@@ -1,0 +1,58 @@
+<html>
+<head>
+    <title>Bridget Riley Image</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<canvas id="c"></canvas>
+<style>
+@media screen {
+    #c{
+        width:100%;
+        height:100%;
+    }
+}
+</style>
+<script>
+    var c = document.getElementById("c");
+    var ctx=c.getContext("2d");
+
+    c.width=window.innerWidth;
+    c.height=window.innerHeight;
+    var x=c.width/2;
+    var y=c.height/2;
+    var k=0.15*x;
+    for(var r=0;r<25;r+=1) {
+        if (r % 2 == 0) {
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + k * Math.cos(r * (Math.PI / 12)), y + k * Math.sin(r * (Math.PI / 12)));
+            ctx.lineTo(x + (2 * k) * Math.cos((r + 1) * (Math.PI / 12)), y + (2*k) * Math.sin((r + 1) * (Math.PI / 12)));
+            ctx.closePath();
+            ctx.stroke();
+            ctx.fill();
+            for (var i=1; i<20 ; i+=1) {
+                if(i%2==1) {
+                    ctx.moveTo(x + (i * k) * Math.cos(r * (Math.PI / 12)), y + (i * k) * Math.sin(r * (Math.PI / 12)));
+                    ctx.lineTo(x + ((i + 1) * k) * Math.cos(r * (Math.PI / 12)), y + ((i + 1) * k) * Math.sin(r * (Math.PI / 12)));
+                    ctx.lineTo(x + ((i + 2) * k) * Math.cos((r - 1) * (Math.PI / 12)), y + ((i + 2) * k) * Math.sin((r - 1) * (Math.PI / 12)));
+                    ctx.lineTo(x + ((i + 1) * k) * Math.cos((r - 1) * (Math.PI / 12)), y + ((i + 1) * k) * Math.sin((r - 1) * (Math.PI / 12)));
+
+                }
+                else{
+                    ctx.moveTo(x + (i * k) * Math.cos(r * (Math.PI / 12)), y + (i * k) * Math.sin(r * (Math.PI / 12)));
+                    ctx.lineTo(x + ((i + 1) * k) * Math.cos(r * (Math.PI / 12)), y + ((i + 1) * k) * Math.sin(r  * (Math.PI / 12)));
+                    ctx.lineTo(x + ((i + 2) * k) * Math.cos((r + 1) * (Math.PI / 12)), y + ((i + 2) * k) * Math.sin((r + 1) * (Math.PI / 12)));
+                    ctx.lineTo(x + ((i + 1) * k) * Math.cos((r + 1) * (Math.PI / 12)), y + ((i + 1) * k) * Math.sin((r + 1) * (Math.PI / 12)));
+
+                }
+            }
+
+
+        }
+
+    }
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<html>
+<head>
+    <title>Assignment 5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @media screen {
+            #c{
+                width:100%;
+                height:100%;
+            }
+        }
+    </style>
+
+</head>
+<body>
+<button onclick="permission()">clicK me</button>
+<div id="d">
+
+</div>
+<canvas id="c"></canvas>
+<script>
+function permission() {
+    if (typeof DeviceMotionEvent.requestPermission === 'function') {
+        DeviceMotionEvent.requestPermission()
+            .then(response => {
+                if (response == 'granted') {
+                    window.addEventListener("devicemotion",handleEvent,true)
+                }
+            })
+            .catch(console.error)
+    } else {
+        window.addEventListener("devicemotion", handleEvent,true);
+            // non iOS 13+
+    }
+    if (window.DeviceMotionEvent==undefined) {
+        console.log("Your browser does not support devicemotion");
+    }
+
+}
+function handleEvent(e){
+    var dx=e.accelerationIncludingGravity.x*5;
+    var dy=e.accelerationIncludingGravity.y*5;
+    var dz=e.accelerationIncludingGravity.z*5;
+    var t=e.interval;
+    console.log("x is"+dx);
+    console.log("y is "+dy+"t is "+t);
+    var c=document.getElementById("d");
+    //var text=document.createTextNode("value of x is "+dx + "value of y is "+dy);
+    //c.appendChild(text);
+    requestAnimationFrame(draw(dx,dy));
+    setInterval(draw,20000);
+}
+function draw(dx,dy) {
+    var c = document.getElementById("c");
+    var ctx=c.getContext("2d");
+
+    c.width=window.innerWidth;
+    c.height=window.innerHeight;
+    console.log("its working");
+    x=c.width/2+(dx*5);
+    y=c.height/2+(dy*5);
+    var k=0.15*x;
+    for(var r=0;r<25;r+=1) {
+        if (r % 2 == 0) {
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + k * Math.cos(r * (Math.PI / 12)), y + k * Math.sin(r * (Math.PI / 12)));
+            ctx.lineTo(x + (2 * k) * Math.cos((r + 1) * (Math.PI / 12)), y + (2*k) * Math.sin((r + 1) * (Math.PI / 12)));
+            ctx.closePath();
+            ctx.stroke();
+            ctx.fill();
+            for (var i=1; i<20 ; i+=1) {
+                if(i%2==1) {
+                    ctx.moveTo(x + (i * k) * Math.cos(r * (Math.PI / 12)), y + (i * k) * Math.sin(r * (Math.PI / 12)));
+                    ctx.lineTo(x + ((i + 1) * k) * Math.cos(r * (Math.PI / 12)), y + ((i + 1) * k) * Math.sin(r * (Math.PI / 12)));
+                    ctx.lineTo(x + ((i + 2) * k) * Math.cos((r - 1) * (Math.PI / 12)), y + ((i + 2) * k) * Math.sin((r - 1) * (Math.PI / 12)));
+                    ctx.lineTo(x + ((i + 1) * k) * Math.cos((r - 1) * (Math.PI / 12)), y + ((i + 1) * k) * Math.sin((r - 1) * (Math.PI / 12)));
+
+                }
+                else{
+                    ctx.moveTo(x + (i * k) * Math.cos(r * (Math.PI / 12)), y + (i * k) * Math.sin(r * (Math.PI / 12)));
+                    ctx.lineTo(x + ((i + 1) * k) * Math.cos(r * (Math.PI / 12)), y + ((i + 1) * k) * Math.sin(r  * (Math.PI / 12)));
+                    ctx.lineTo(x + ((i + 2) * k) * Math.cos((r + 1) * (Math.PI / 12)), y + ((i + 2) * k) * Math.sin((r + 1) * (Math.PI / 12)));
+                    ctx.lineTo(x + ((i + 1) * k) * Math.cos((r + 1) * (Math.PI / 12)), y + ((i + 1) * k) * Math.sin((r + 1) * (Math.PI / 12)));
+
+                }
+            }
+
+
+        }
+
+    }
+
+}
+
+</script>
+</body>
+</html>
